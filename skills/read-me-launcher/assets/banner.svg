@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="read-me-launcher">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="55%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="28%" r="45%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+    <style>
+      .title { fill: #f8fafc; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; font-size: 64px; font-weight: 700; letter-spacing: -1.5px; }
+      .sub { fill: #cbd5e1; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; font-size: 24px; font-weight: 500; }
+      .chip { fill: #0f172a; stroke: #2dd4bf; stroke-opacity: 0.55; }
+      .chip-text { fill: #99f6e4; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 16px; }
+      @media (prefers-color-scheme: light) {
+        .title { fill: #0f172a; }
+        .sub { fill: #334155; }
+        .chip { fill: #ffffff; stroke: #0f766e; stroke-opacity: 0.45; }
+        .chip-text { fill: #0f766e; }
+      }
+    </style>
+  </defs>
+  <rect width="1280" height="420" fill="url(#bg)"/>
+  <rect width="1280" height="420" fill="url(#grid)"/>
+  <rect width="1280" height="420" fill="url(#glow)"/>
+  <circle cx="1040" cy="90" r="140" fill="#22d3ee" fill-opacity="0.08"/>
+  <circle cx="180" cy="340" r="110" fill="#2dd4bf" fill-opacity="0.08"/>
+  <rect x="72" y="118" width="8" height="72" rx="4" fill="url(#accent)"/>
+  <text class="title" x="100" y="170">read-me-launcher</text>
+  <text class="sub" x="100" y="220">READMEs that feel owned. Not generated.</text>
+  <rect class="chip" x="100" y="268" width="292" height="40" rx="20"/>
+  <text class="chip-text" x="124" y="294">gh skill install · Agent Skills</text>
+  <rect x="0" y="412" width="1280" height="8" fill="url(#accent)"/>
+</svg>

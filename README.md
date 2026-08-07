@@ -1,109 +1,126 @@
 <div align="center">
 
-# read-me-launcher
+  <img src="skills/read-me-launcher/assets/banner.svg" alt="read-me-launcher banner" width="100%" />
 
-**Turn any repo into a README people actually want to open.**
+  <br />
 
-An Agent Skill that inspects the real project, picks the right voice for public vs private, and writes a landing page with taste: clear pitch, honest quick start, zero credential leaks.
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=3500&pause=900&color=2DD4BF&center=true&vCenter=true&width=720&height=40&lines=READMEs+that+feel+owned.;Not+scaffolds.+Not+secrets.+Not+slop." alt="Typing pitch" />
 
-[![Release](https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square)](https://github.com/thatdudealso/read-me-launcher/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-111111?style=flat-square)](https://agentskills.io)
+  <p><strong>An Agent Skill that launches READMEs people actually want to open.</strong><br />
+  Inspects the real repo. Designs a hero. Writes the page. Blocks credential leaks.</p>
 
-```bash
-gh skill install thatdudealso/read-me-launcher
-```
+  <p>
+    <a href="https://github.com/thatdudealso/read-me-launcher/releases"><img src="https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e" alt="Release" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-0f172a?style=flat-square" alt="MIT" /></a>
+    <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent%20Skills-ready-111111?style=flat-square" alt="Agent Skills" /></a>
+  </p>
+
+  ```bash
+  gh skill install thatdudealso/read-me-launcher
+  ```
 
 </div>
 
 <br />
 
-Most READMEs fail in the first screen. Scaffold dumps. Badge walls. Feature laundry lists. Fake claims. Secrets that should never have shipped.
+<div align="center">
+  <img src="skills/read-me-launcher/assets/preview.svg" alt="README preview card" width="92%" />
+</div>
 
-**read-me-launcher** is the skill you hand an agent when you want the opposite: a README that feels owned by a careful engineer.
+## The problem
 
-## Why developers use it
+Most READMEs die in the first screen.
 
-| Without it | With it |
-|------------|---------|
-| Generic "Getting Started" boilerplate | Install/run commands taken from *this* repo |
-| Same tone for every project | Public pitch vs private runbook |
-| Secrets and hostnames slip in | Hard deny-list before the draft ships |
-| Sections for the sake of sections | Only what the project type needs |
+Scaffold dumps. Badge walls. Feature laundry lists. Invented stack claims. Secrets that should never have shipped. Pages that look like every other AI-generated starter.
 
-Works anywhere Agent Skills load: Cursor, Claude Code, Codex, and other clients that read `SKILL.md`.
+Developers bounce. That is the whole ballgame.
+
+## The fix
+
+**read-me-launcher** hands your agent a high bar and the tools to hit it:
+
+| It does | So you get |
+|---------|------------|
+| Inspects the tree first | Install/run commands that are real |
+| Requires a hero for public products | A first screen with taste |
+| Creates theme-aware SVG assets when missing | Graphics that work in light and dark |
+| Switches public vs private voice | Outsider pitch or teammate runbook |
+| Runs a credential deny-list | No keys, tokens, or `.env` paste disasters |
+
+Works with Cursor, Claude Code, Codex, and anything else that loads [Agent Skills](https://agentskills.io).
 
 ## Quick start
-
-**Requires:** [GitHub CLI](https://cli.github.com/) with skill support (`gh skill`).
 
 ```bash
 gh skill install thatdudealso/read-me-launcher
 ```
 
-Pin a release if you want a fixed version:
+Pin it:
 
 ```bash
-gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.0.0
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.1.0
 ```
 
-Then in your agent chat, on the repo you want documented:
+Then ask your agent on any repo:
 
 ```text
 /read-me-launcher
-```
 
-or ask plainly: *write a polished README for this repository*.
+Make this README feel like a product launch. Create SVG hero assets if missing.
+Keep secrets out. Do not invent features.
+```
 
 ### Manual install
 
 ```bash
 git clone https://github.com/thatdudealso/read-me-launcher.git
 ln -sfn "$(pwd)/read-me-launcher/skills/read-me-launcher" ~/.cursor/skills/read-me-launcher
-# also: ~/.claude/skills  ~/.codex/skills  ~/.agents/skills
 ```
 
-## What the skill does
+Same path works for `~/.claude/skills`, `~/.codex/skills`, and `~/.agents/skills`.
 
-1. **Inspects** the repo with `scripts/inspect-repo.sh` (stack signals, scripts, visibility). Never invents stack facts.
-2. **Chooses voice** from public vs private (outsider story vs teammate runbook).
-3. **Designs the first screen** before dumping headings: name, one pitch, light proof, path to run.
-4. **Writes `README.md`** with real install/run commands from the tree.
-5. **Runs a secret pass** against a deny-list so keys, tokens, and credential-looking strings stay out.
+## What “good” looks like
 
-## Example ask
+This page is the skill applied to itself.
 
-```text
-Use read-me-launcher on this repo. Make the first screen feel like a product
-landing page, keep install commands accurate, and do not invent features.
-```
+- Wide banner with brand and pitch
+- One motion line (typing SVG), not a carnival
+- Preview card that shows the outcome
+- Install above the fold
+- Comparison that makes the pain obvious
+- No emoji spam, no fake dashboards, no secret leaks
 
-This repository’s README is the skill applied to itself. If the page feels intentional, that is the bar it aims for on yours.
+Steal the pattern. That is the point.
 
-## Layout
-
-Standard [Agent Skills](https://agentskills.io) / [`gh skill`](https://cli.github.com/manual/gh_skill_publish) layout (same pattern as [anthropics/skills](https://github.com/anthropics/skills)):
+## Inside the skill
 
 ```text
 skills/read-me-launcher/
-├── SKILL.md                 # triggers + workflow
-├── scripts/inspect-repo.sh  # facts only; never dumps secrets
+├── SKILL.md
+├── assets/
+│   ├── banner.svg      # theme-aware hero reference
+│   └── preview.svg     # outcome window reference
+├── scripts/
+│   └── inspect-repo.sh
 ├── references/
-│   ├── design.md            # first screen, rhythm, anti-patterns
-│   ├── privacy.md           # public/private + deny-list
-│   └── section-map.md       # sections by project type
-└── agents/openai.yaml       # Codex / OpenAI UI hints
+│   ├── design.md       # structure + taste tests
+│   ├── visuals.md      # banners, SVG, motion rules
+│   ├── privacy.md      # public/private + deny-list
+│   └── section-map.md
+└── agents/openai.yaml
 ```
 
-## Pair with consistent naming
+## Pair with consistent-naming
 
-Name the repo and files with [`consistent-naming`](https://github.com/thatdudealso/consistent-naming), then launch the README with this skill so the landing page and the tree agree.
+Name the repo like it belongs on your machine, then launch the front door:
 
 ```bash
 gh skill install thatdudealso/consistent-naming
 gh skill install thatdudealso/read-me-launcher
 ```
 
+[`consistent-naming`](https://github.com/thatdudealso/consistent-naming) surveys local structure. This skill makes the landing page irresistible.
+
 ## License
 
-[MIT](LICENSE). Use it on your repos, ship better front doors.
+[MIT](LICENSE). Make your repos look like someone cares.

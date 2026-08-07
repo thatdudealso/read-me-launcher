@@ -1,79 +1,96 @@
 ---
 name: read-me-launcher
 description: >-
-  Launch a polished, developer-grade GitHub README.md that people can reuse for
-  their repositories. Detects public vs private repos and adapts tone, depth,
-  and what is safe to publish. Use when the user asks to write, rewrite,
-  improve, redesign, generate, or launch a README; mentions README quality,
-  project landing page, open-source docs, or "make the repo look professional."
+  Launch a stunning, developer-grade GitHub README.md with real visual craft
+  (theme-aware SVG banners, preview cards, tight hero, secret-safe copy) that
+  people want to steal for their own repos. Detects public vs private and adapts
+  tone. Use when writing, rewriting, redesigning, or generating a README; when
+  the user wants something beautiful, creative, or product-quality; or mentions
+  README quality, landing page, open-source docs, or "make the repo look
+  amazing."
 license: MIT
 ---
 
 # Read Me Launcher
 
-Produce a README that feels intentional: clear value in the first screen, honest
-setup path, zero credential leaks, and a tone that says a careful engineer owns
-this repo. Built so others can drop the skill onto any repository and get a
-usable landing page.
+Ship a README that feels like a product launch: hero graphic, ruthless pitch,
+honest install path, zero credential leaks. Mediocre text-only pages are a
+failure mode for public repos.
+
+## Quality bar (do not ship below this)
+
+For **public** product/tool/skill repos:
+
+- [ ] Hero graphic in-repo (`assets/banner.svg` or equivalent)
+- [ ] Optional preview card showing the outcome (`assets/preview.svg`)
+- [ ] One bold pitch + real install one-liner above the fold
+- [ ] Max 3 badges above the fold
+- [ ] Commands match the real toolchain
+- [ ] Secret deny-list pass from [references/privacy.md](references/privacy.md)
+
+If the draft would not make *you* want to install the project, rewrite.
 
 ## Workflow
 
 1. **Inspect the repo** (never invent stack facts):
-   - Run `scripts/inspect-repo.sh` from the repo root (or the path the user gave).
-   - Read package manifests, existing README, `LICENSE`, `AGENTS.md`, and top-level
-     dirs only as needed.
-   - Note visibility: `public` | `private` | `unknown` from the script output.
+   - Run `scripts/inspect-repo.sh` from the repo root.
+   - Read manifests, existing README, `LICENSE`, top-level dirs as needed.
+   - Note visibility: `public` | `private` | `unknown`.
 
-2. **Choose audience mode** from visibility + user intent:
-   - **Public**: outsider-first. Motivation, quick start, contribution path.
-   - **Private**: teammate-first. Purpose, local run, ownership, internal links
-     that are still non-secret. Skip marketing fluff; keep polish.
-   - See [references/privacy.md](references/privacy.md) before drafting.
+2. **Choose audience mode**:
+   - **Public**: outsider-first, visual craft required.
+   - **Private**: teammate runbook; visuals optional but polish still matters.
+   - See [references/privacy.md](references/privacy.md).
 
-3. **Design the page**, not a dump of headings:
-   - Follow [references/design.md](references/design.md) for structure, visual
-     rhythm, badges, and anti-patterns.
-   - Prefer one strong hero block over emoji clutter and badge walls.
+3. **Design + visuals before prose**:
+   - Follow [references/design.md](references/design.md) and
+     [references/visuals.md](references/visuals.md).
+   - If no hero exists for a public product README, **create** theme-aware SVG
+     assets under `assets/` (use this skill’s `assets/` as the quality reference).
+   - Prefer local SVG over fragile external image hosts. One tasteful motion
+     element max (e.g. typing SVG) only if it earns the slot.
 
-4. **Draft README.md** at the repo root (or update in place if one exists):
-   - Preserve accurate install/run commands discovered from the repo.
-   - Prefer real commands over placeholders like `<your-key-here>` when a
-     documented env var name exists - never invent secret values.
-   - Call out optional vs required setup.
+4. **Draft README.md** at the repo root:
+   - Preserve accurate install/run commands from the repo.
+   - Center hero with `<div align="center">` and blank lines inside the div.
+   - Never invent features, screenshots of unseen UIs, or secret values.
 
-5. **Secret + accuracy pass** (mandatory before finishing):
-   - Scan the draft against the deny-list in `references/privacy.md`.
-   - Confirm every install/run command matches what the repo actually uses.
-   - If something is unknown, say so briefly or omit it - do not guess.
+5. **Secret + taste pass** (mandatory):
+   - Deny-list in `references/privacy.md`.
+   - Taste test: strip the name; if it looks like any starter template, rewrite.
+   - Confirm every command matches reality.
 
-6. **Offer a short follow-up** only if useful: screenshot slot, CONTRIBUTING
-   stub, or LICENSE note. Do not create extra docs unless asked.
+6. **Follow-up** only if useful (screenshot slot, CONTRIBUTING). Do not spam
+   extra docs.
 
 ## Output rules
 
 - Write the README file; do not only describe what you would write.
-- Use GitHub-flavored Markdown. Keep HTML minimal (centered badges or a simple
-  hero `<div align="center">` is fine when it improves the first screen).
-- Imperative voice in install steps ("Install dependencies", "Run the server").
-- No secrets, tokens, private URLs with credentials, internal IP/hostnames that
-  are not meant for the README audience, or dump of `.env` contents.
-- No "Generated by AI" / "as an AI" disclaimers.
-- Never use an em dash.
+- Create or update visual assets when the page needs them.
+- GitHub-flavored Markdown; minimal HTML for centering/heroes.
+- Imperative install steps. No "Generated by AI" disclaimers. No em dashes.
+- Reference this skill’s bundled assets when useful:
+  - [assets/banner.svg](assets/banner.svg)
+  - [assets/preview.svg](assets/preview.svg)
 
 ## Quick decision tree
 
 ```
 Need README work?
-├─ Public repo → outsider story + quick start + contribution
-├─ Private repo → purpose + runbook + ownership; less marketing
-└─ Visibility unknown → ask once, or default to private-safe content
+├─ Public product/tool/skill → hero SVG + pitch + install + wow
+├─ Public library → banner or logo + minimal usage
+├─ Private tool → runbook polish; graphics optional
+└─ Visibility unknown → private-safe content, still crisp
 ```
 
 ## Bundled resources
 
-| Path | When to use |
-|------|-------------|
-| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Always at start - stack, scripts, visibility |
-| [references/design.md](references/design.md) | Layout, hero, badges, section order |
-| [references/privacy.md](references/privacy.md) | Public vs private + leak deny-list |
-| [references/section-map.md](references/section-map.md) | Which sections to include by project type |
+| Path | When |
+|------|------|
+| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Always at start |
+| [references/design.md](references/design.md) | Structure, taste, anti-patterns |
+| [references/visuals.md](references/visuals.md) | Banners, SVG, motion, asset creation |
+| [references/privacy.md](references/privacy.md) | Public/private + deny-list |
+| [references/section-map.md](references/section-map.md) | Sections by project type |
+| [assets/banner.svg](assets/banner.svg) | Reference hero quality |
+| [assets/preview.svg](assets/preview.svg) | Reference outcome preview |

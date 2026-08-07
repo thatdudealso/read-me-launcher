@@ -8,51 +8,44 @@ Launch beautiful, developer-grade GitHub READMEs that people can reuse on any re
 
 </div>
 
-## Why
-
-Most READMEs are either a scaffold dump or a marketing wall. This skill inspects the real repo, picks public vs private voice, and writes a first screen that looks owned: clear pitch, honest quick start, zero credential leaks.
-
-## Features
-
-- Public vs private tone (outsider story vs teammate runbook)
-- Stack facts from the repo, not invented claims
-- Design rules for above-the-fold layout and section order
-- Hard deny-list for secrets, tokens, and unsafe hostnames
-- Works as a drop-in agent skill across Cursor, Claude, Codex, and friends
+Agent skill for [Agent Skills](https://agentskills.io) / `gh skill`. Layout follows the standard `skills/<name>/SKILL.md` convention used by [anthropics/skills](https://github.com/anthropics/skills) and GitHub CLI discovery.
 
 ## Install
 
 ```bash
-git clone https://github.com/thatdudealso/read-me-launcher.git
-ln -sfn "$(pwd)/read-me-launcher" ~/.cursor/skills/read-me-launcher
-# also works for ~/.claude/skills, ~/.codex/skills, ~/.agents/skills, etc.
+gh skill install thatdudealso/read-me-launcher
 ```
 
-## Usage
-
-From the repository you want to document:
+Pin a release:
 
 ```bash
-./scripts/inspect-repo.sh .
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.0.0
 ```
 
-Then follow `SKILL.md` to draft or rewrite `README.md`. Prefer writing the file over describing what you would write.
+Manual symlink:
+
+```bash
+git clone https://github.com/thatdudealso/read-me-launcher.git
+ln -sfn "$(pwd)/read-me-launcher/skills/read-me-launcher" ~/.cursor/skills/read-me-launcher
+```
+
+## What it does
+
+Inspects the real repo, picks public vs private voice, and writes a polished README with an honest quick start and no credential leaks.
 
 ## Layout
 
 ```
-SKILL.md                   # agent instructions + triggers
-scripts/inspect-repo.sh    # stack, scripts, visibility (no secret dumps)
-references/
-  design.md                # hero, rhythm, anti-patterns
-  privacy.md               # public/private + leak deny-list
-  section-map.md           # sections by project type
-agents/openai.yaml         # Codex/OpenAI skill UI hints
+skills/read-me-launcher/
+  SKILL.md
+  scripts/inspect-repo.sh
+  references/
+  agents/openai.yaml
 ```
 
 ## Pair with consistent-naming
 
-Name the repo and files with [`consistent-naming`](https://github.com/thatdudealso/consistent-naming), then launch the README with this skill so the landing page and the tree agree.
+Name the repo with [`consistent-naming`](https://github.com/thatdudealso/consistent-naming), then launch the README with this skill.
 
 ## License
 

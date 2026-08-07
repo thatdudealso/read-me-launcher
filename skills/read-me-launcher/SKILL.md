@@ -6,6 +6,7 @@ description: >-
   and what is safe to publish. Use when the user asks to write, rewrite,
   improve, redesign, generate, or launch a README; mentions README quality,
   project landing page, open-source docs, or "make the repo look professional."
+license: MIT
 ---
 
 # Read Me Launcher

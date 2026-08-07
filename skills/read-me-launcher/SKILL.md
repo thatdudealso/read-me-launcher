@@ -1,96 +1,75 @@
 ---
 name: read-me-launcher
 description: >-
-  Launch a stunning, developer-grade GitHub README.md with real visual craft
-  (theme-aware SVG banners, preview cards, tight hero, secret-safe copy) that
-  people want to steal for their own repos. Detects public vs private and adapts
-  tone. Use when writing, rewriting, redesigning, or generating a README; when
-  the user wants something beautiful, creative, or product-quality; or mentions
-  README quality, landing page, open-source docs, or "make the repo look
-  amazing."
+  Launch museum-quality GitHub README.md pages with extreme visual craft
+  (theme-aware SVG heroes, preview windows, capability strips, local motion)
+  and strict render-safe Markdown so pages do not break on GitHub. Secret-safe,
+  public/private aware. Use when writing or redesigning a README; when the user
+  wants something beautiful, creative, or product-grade; or mentions broken
+  README rendering, landing page quality, or "make it amazing."
 license: MIT
 ---
 
 # Read Me Launcher
 
-Ship a README that feels like a product launch: hero graphic, ruthless pitch,
-honest install path, zero credential leaks. Mediocre text-only pages are a
-failure mode for public repos.
+Ship a README that feels inevitable: hero, preview, pitch, install, zero
+credential leaks, zero GitHub render footguns. Mediocre or broken pages are
+failures.
 
-## Quality bar (do not ship below this)
+## Extreme bar (public products)
 
-For **public** product/tool/skill repos:
+Do not finish until all are true:
 
-- [ ] Hero graphic in-repo (`assets/banner.svg` or equivalent)
-- [ ] Optional preview card showing the outcome (`assets/preview.svg`)
-- [ ] One bold pitch + real install one-liner above the fold
+- [ ] Custom in-repo SVG hero (`assets/banner.svg` or equivalent)
+- [ ] Outcome preview graphic
+- [ ] Capability strip (visual, not a boring bullet dump)
+- [ ] One bold pitch + install path above the fold
 - [ ] Max 3 badges above the fold
+- [ ] **No code fences inside `<div>` / `<section>` / `<center>`**
+- [ ] Local motion preferred; external animated hosts not required
 - [ ] Commands match the real toolchain
-- [ ] Secret deny-list pass from [references/privacy.md](references/privacy.md)
+- [ ] `scripts/check-readme.sh README.md` passes
+- [ ] Secret deny-list pass ([references/privacy.md](references/privacy.md))
 
-If the draft would not make *you* want to install the project, rewrite.
+If you would not install the project from the first screen, rewrite.
 
 ## Workflow
 
-1. **Inspect the repo** (never invent stack facts):
-   - Run `scripts/inspect-repo.sh` from the repo root.
-   - Read manifests, existing README, `LICENSE`, top-level dirs as needed.
-   - Note visibility: `public` | `private` | `unknown`.
-
-2. **Choose audience mode**:
-   - **Public**: outsider-first, visual craft required.
-   - **Private**: teammate runbook; visuals optional but polish still matters.
-   - See [references/privacy.md](references/privacy.md).
-
-3. **Design + visuals before prose**:
-   - Follow [references/design.md](references/design.md) and
-     [references/visuals.md](references/visuals.md).
-   - If no hero exists for a public product README, **create** theme-aware SVG
-     assets under `assets/` (use this skill’s `assets/` as the quality reference).
-   - Prefer local SVG over fragile external image hosts. One tasteful motion
-     element max (e.g. typing SVG) only if it earns the slot.
-
-4. **Draft README.md** at the repo root:
-   - Preserve accurate install/run commands from the repo.
-   - Center hero with `<div align="center">` and blank lines inside the div.
-   - Never invent features, screenshots of unseen UIs, or secret values.
-
-5. **Secret + taste pass** (mandatory):
-   - Deny-list in `references/privacy.md`.
-   - Taste test: strip the name; if it looks like any starter template, rewrite.
-   - Confirm every command matches reality.
-
-6. **Follow-up** only if useful (screenshot slot, CONTRIBUTING). Do not spam
-   extra docs.
+1. **Inspect** with `scripts/inspect-repo.sh` (never invent stack facts).
+2. **Audience**: public = outsider + extreme visuals; private = runbook polish.
+   See [references/privacy.md](references/privacy.md).
+3. **Design visuals first**:
+   - [references/design.md](references/design.md)
+   - [references/visuals.md](references/visuals.md) (extreme bar + hard fails)
+   - Create theme-aware SVGs when missing; use this skill’s `assets/` as the floor.
+4. **Draft README.md** with render-safe structure:
+   - Images/pitch inside centered divs
+   - Fenced install/code blocks **outside** those divs
+5. **Lint + secret pass**:
+   ```bash
+   scripts/check-readme.sh README.md
+   ```
+6. Fix every lint error before finishing.
 
 ## Output rules
 
-- Write the README file; do not only describe what you would write.
-- Create or update visual assets when the page needs them.
-- GitHub-flavored Markdown; minimal HTML for centering/heroes.
-- Imperative install steps. No "Generated by AI" disclaimers. No em dashes.
-- Reference this skill’s bundled assets when useful:
+- Write the README and assets; do not only describe them.
+- Prefer local SVG over JPEG/PNG and over flaky external image APIs.
+- No em dashes. No "Generated by AI". No secrets.
+- Reference assets:
   - [assets/banner.svg](assets/banner.svg)
+  - [assets/tagline.svg](assets/tagline.svg)
   - [assets/preview.svg](assets/preview.svg)
-
-## Quick decision tree
-
-```
-Need README work?
-├─ Public product/tool/skill → hero SVG + pitch + install + wow
-├─ Public library → banner or logo + minimal usage
-├─ Private tool → runbook polish; graphics optional
-└─ Visibility unknown → private-safe content, still crisp
-```
+  - [assets/features.svg](assets/features.svg)
 
 ## Bundled resources
 
 | Path | When |
 |------|------|
-| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Always at start |
-| [references/design.md](references/design.md) | Structure, taste, anti-patterns |
-| [references/visuals.md](references/visuals.md) | Banners, SVG, motion, asset creation |
-| [references/privacy.md](references/privacy.md) | Public/private + deny-list |
-| [references/section-map.md](references/section-map.md) | Sections by project type |
-| [assets/banner.svg](assets/banner.svg) | Reference hero quality |
-| [assets/preview.svg](assets/preview.svg) | Reference outcome preview |
+| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Start |
+| [scripts/check-readme.sh](scripts/check-readme.sh) | Before finish (mandatory) |
+| [references/design.md](references/design.md) | Structure + taste |
+| [references/visuals.md](references/visuals.md) | Extreme craft + render safety |
+| [references/privacy.md](references/privacy.md) | Deny-list |
+| [references/section-map.md](references/section-map.md) | Sections by type |
+| [assets/](assets/) | Quality floor for graphics |

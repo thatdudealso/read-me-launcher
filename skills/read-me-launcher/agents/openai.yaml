@@ -1,4 +1,4 @@
 interface:
   display_name: "Read Me Launcher"
-  short_description: "Stunning secret-safe GitHub READMEs with real visuals"
-  default_prompt: "Launch a stunning README for this repo. Create theme-aware SVG hero/preview assets if missing, keep secrets out, match real install commands, and make the first screen feel like a product people want to use."
+  short_description: "Museum-quality READMEs; render-safe + visual craft"
+  default_prompt: "Launch a museum-quality README. Create local theme-aware SVG hero/preview/feature assets, keep code fences outside HTML divs, run check-readme.sh, keep secrets out, and make the first screen irresistible."

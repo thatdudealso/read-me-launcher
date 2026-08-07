@@ -1,60 +1,70 @@
 # Section map by project type
 
 Pick the smallest set that covers truth. Prefer omission over filler.
+Pair with [audience.md](audience.md) for visual intensity.
+
+## Agent skill / developer tool (Launch)
+
+- Hero PNG + pitch + badges
+- Outcome preview PNG
+- Optional showcase (before→after)
+- Install (outside HTML divs)
+- Why / comparison (short)
+- Usage prompt / example ask
+- Layout
+- License
 
 ## Library / package
 
 - Pitch
 - Install
-- Minimal usage example
-- API surface (link to docs if large)
+- Minimal usage example (**this is the visual**)
+- API surface (link if large)
 - Development / publish
 - License
 
 ## App / API / service
 
-- Pitch
+- Pitch + UI screenshot or API quickstart
 - Features (outcomes)
-- Quick start (prereqs + install + run)
-- Configuration table
-- Common scripts (`dev`, `test`, `build`)
-- Deployment notes (only if real)
+- Quick start
+- Configuration table (names only)
+- Common scripts
 - License / Contributing
 
 ## CLI tool
 
 - Pitch
+- Terminal preview or command output proof
 - Install
-- `tool --help` oriented examples
+- Realistic command examples
 - Configuration / auth (names only)
-- Development
 
 ## Monorepo
 
-- Pitch for the whole workspace
-- Package map (table of paths)
+- Pitch for the workspace
+- Package map table
 - How to run the primary app
-- How to run package-local work
-- Tooling (pnpm/nx/turbo/mise) as actually used
+- Package-local work
+- Real tooling names only
 
-## Game / creative (e.g. GameMaker)
+## Game / creative
 
 - Pitch + platform targets
-- Open in IDE / `gm-cli` commands if used
-- Build / run / package
-- Asset / content notes (non-secret)
+- Visual proof (screenshot)
+- Open / build / run commands
+- Asset notes (non-secret)
 
-## Dotfiles / personal machine config
+## Dotfiles / machine config
 
-- Pitch (what this repo controls)
-- Apply / rebuild command that is real
+- Pitch
+- Apply / rebuild command
 - Structure overview
-- Explicit warning: do not commit secrets; point to ignored paths by name
+- Secrets warning
 
 ## Private internal tool
 
 - Purpose + owner
-- Access / who can run it
 - Local setup
-- Ops pointers (dashboards by name, not credentials)
-- Support / escalation (Slack channel name is fine)
+- Ops pointers (no credentials)
+- Support channel name

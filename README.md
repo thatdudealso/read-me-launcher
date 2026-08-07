@@ -2,8 +2,8 @@
 
   <img src="skills/read-me-launcher/assets/banner.png" alt="read-me-launcher" width="100%" />
 
-  <p><strong>An Agent Skill that launches museum-quality GitHub READMEs.</strong><br />
-  Flashy heroes that actually render. Truthful installs. Credential deny-list.</p>
+  <p><strong>An Agent Skill that launches READMEs developers actually want to open.</strong><br />
+  Consumer-first. Share-ready. PNG heroes that render on GitHub. Secret-safe.</p>
 
   <p>
     <a href="https://github.com/thatdudealso/read-me-launcher/releases"><img src="https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e" alt="Release" /></a>
@@ -19,7 +19,7 @@ gh skill install thatdudealso/read-me-launcher
 
 <div align="center">
 
-  <img src="skills/read-me-launcher/assets/preview.png" alt="Product preview" width="94%" />
+  <img src="skills/read-me-launcher/assets/preview.png" alt="What the skill produces" width="94%" />
 
 </div>
 
@@ -29,21 +29,28 @@ gh skill install thatdudealso/read-me-launcher
 
 </div>
 
-## Why this exists
+## Built for the next developer (and your tweet)
 
-Most README “upgrades” still fail in two ugly ways:
+A good README is not for you. It is for the stranger who lands cold, or the
+timeline that sees one screenshot.
 
-1. They look like every other AI scaffold
-2. Their “fancy SVG” dies on GitHub’s image proxy (broken image icon)
+Top repos put **proof** above the fold: what it is, what success looks like, one
+install command. Pictures are not the enemy. Useless pictures are.
 
-**read-me-launcher** is built for both problems: extreme craft, and formats GitHub will actually show.
+**read-me-launcher** picks an audience mode, then ships the right intensity:
 
-| Without it | With it |
-|---|---|
-| Blank / broken SVG heroes | PNG heroes that render in camo |
-| Nested fences that nuke the page | Lint that blocks those footguns |
-| Dull feature tile grids | Cinematic before → after showcase |
-| Secrets and fake claims | Inspect-first + deny-list |
+| Mode | Best for | Visuals |
+|------|----------|---------|
+| Launch | Products, skills, CLIs you will share | Flashy PNG banner + outcome preview + showcase |
+| Proof | UI tools | Real product screenshots |
+| Library | Packages / SDKs | Code sample as the hero (not a mural) |
+| Internal | Private tools | Runbook clarity, minimal marketing |
+
+## Why it works on GitHub
+
+Fancy SVG + CSS classes often die in GitHub’s image proxy (broken image icon).
+This skill defaults to **PNG heroes**, keeps install fences **outside** HTML
+divs, and lints with `check-readme.sh` before you ship.
 
 ## Quick start
 
@@ -54,7 +61,7 @@ gh skill install thatdudealso/read-me-launcher
 Pin:
 
 ```bash
-gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.3.0
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.4.0
 ```
 
 Ask your agent:
@@ -62,8 +69,8 @@ Ask your agent:
 ```text
 /read-me-launcher
 
-Make this README feel like a product launch. Use PNG heroes that render on
-GitHub. Keep code fences outside HTML divs. Run check-readme.sh. No secrets.
+Consumer-first README. If this is shareable, use Launch mode with PNG
+banner + preview + showcase. Prove the product. Lint with check-readme.sh.
 ```
 
 ### Manual install
@@ -75,13 +82,13 @@ ln -sfn "$(pwd)/read-me-launcher/skills/read-me-launcher" ~/.cursor/skills/read-
 
 ## What the skill enforces
 
-1. Inspect the real repo
-2. Ship flashy **PNG** banner/preview (SVG only as camo-safe inline fallback)
-3. Write render-safe Markdown
-4. Lint with `scripts/check-readme.sh`
-5. Scrub credentials
+1. Choose audience mode (`references/audience.md`)
+2. Inspect the real repo
+3. Ship proof visuals (or code-first for libraries)
+4. Write render-safe Markdown
+5. Lint + secret scrub
 
-This page is the skill applied to itself.
+This page is Launch mode applied to itself: flashy on purpose, useful on purpose.
 
 ## Layout
 
@@ -89,15 +96,16 @@ This page is the skill applied to itself.
 skills/read-me-launcher/
 ├── SKILL.md
 ├── assets/
-│   ├── banner.png
-│   ├── preview.png
-│   ├── showcase.png
-│   ├── banner.svg          # inline-attribute fallback
+│   ├── banner.png      # share-ready hero
+│   ├── preview.png     # outcome proof
+│   ├── showcase.png    # before → after
+│   ├── banner.svg      # inline-attribute fallback
 │   └── preview.svg
 ├── scripts/
 │   ├── inspect-repo.sh
 │   └── check-readme.sh
 └── references/
+    ├── audience.md     # launch vs library vs internal
     ├── visuals.md
     ├── design.md
     ├── privacy.md

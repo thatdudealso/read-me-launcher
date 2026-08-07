@@ -1,32 +1,32 @@
-# README design (extreme bar)
+# README design
 
-Goal: the first screen should feel like a **product launch trailer**, not a
-scaffold dump. Also read [visuals.md](visuals.md) before drafting.
+Goal: a stranger decides to try the project in five seconds. Also read
+[audience.md](audience.md) and [visuals.md](visuals.md).
 
-## First screen
+## First screen (Launch / Proof)
 
-1. Hero SVG banner
-2. Local tagline motion (optional, one only)
-3. One-line pitch
-4. 1-3 badges
-5. Install one-liner **immediately below** the hero block (not inside the div)
+1. PNG hero (product signal, not empty vibes)
+2. One-line pitch (outcome + audience)
+3. 1-3 badges
+4. Install one-liner **outside** the centered div
+5. Outcome preview / showcase directly below
 
-## Taste test
+## First screen (Library)
 
-Strip the project name. If it could still be any starter template, fail.
+1. Name + pitch
+2. Install
+3. Working code sample (the proof)
 
-## Visual rhythm
+## Taste tests
 
-- Short paragraphs
-- Tight command blocks outside HTML wrappers
-- Comparison table only when it beats prose
-- H1 once; H2 sections; H3 rare
-- Blank lines inside centered divs
+- **Strip the name** — still specific? Good.
+- **Twitter crop** — first screen readable in a screenshot? Good for Launch.
+- **Would a skeptical eng install?** — if the art feels like perfume with no
+  product, replace with outcome proof.
 
 ## Anti-patterns
 
-- Nested ` ``` ` fences in `<div>` (hard fail)
-- External typing SVGs as the only wow factor
-- Badge walls, emoji spam, placeholder images
-- Purple neon cliché skins with no brand reason
-- Em dashes
+- Nested ` ``` ` in `<div>` (hard fail)
+- CSS-class SVG as only hero (often blank on GitHub)
+- Vibes banner with no preview of output
+- Badge walls, emoji spam, em dashes

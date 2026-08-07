@@ -55,9 +55,14 @@ def pref(msg: str) -> None:
     prefs.append(msg)
 
 
-# --- ERROR: nested fences inside HTML containers ---
+# --- ERROR: nested fences inside real HTML containers ---
+# Only treat tags followed by a newline as block wrappers (avoids `<div>` in prose/tables).
 for tag in ("div", "section", "center"):
-    for m in re.finditer(rf"<{tag}\b[\s\S]*?</{tag}>", text, flags=re.I):
+    for m in re.finditer(
+        rf"<{tag}\b[^>]*>\s*\n[\s\S]*?</{tag}>",
+        text,
+        flags=re.I,
+    ):
         if "```" in m.group(0):
             err(f"nested code fence inside <{tag}> (breaks GitHub render) at char {m.start()}")
 

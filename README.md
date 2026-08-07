@@ -1,14 +1,17 @@
-# read-me-launcher
+<div align="center">
 
-**Audience-aware, repository-grounded README generation for agents.**
+  <img src="skills/read-me-launcher/assets/banner.png" alt="read-me-launcher" width="100%" />
 
-Inspect first. Match install/run claims to the real repo. Choose the minimum honest proof. Lint render breaks and common secret patterns.
+  <p><strong>Audience-aware, repository-grounded README generation for agents.</strong><br />
+  Inspect first. Match install/run claims to the real repo. Choose the minimum honest proof. Lint render breaks and common secret patterns.</p>
 
-Primary proof for *this* repo: **behavioral / agent-skill** (install + prompt + inspect/lint workflow). Hero art is optional demo material below, not the product.
+  <p>
+    <a href="https://github.com/thatdudealso/read-me-launcher/releases"><img src="https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e" alt="Release" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-0f172a?style=flat-square" alt="MIT" /></a>
+    <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent%20Skills-ready-111111?style=flat-square" alt="Agent Skills" /></a>
+  </p>
 
-[![Release](https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e)](https://github.com/thatdudealso/read-me-launcher/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-0f172a?style=flat-square)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-ready-111111?style=flat-square)](https://agentskills.io)
+</div>
 
 ## Install
 
@@ -29,7 +32,7 @@ gh skill install thatdudealso/read-me-launcher
 Pin a release when you want a fixed version:
 
 ```bash
-gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.5.1
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.5.3
 ```
 
 ## Example agent prompt
@@ -79,7 +82,7 @@ Public + shareable does **not** mean three PNGs. Pick the cheapest honest proof:
 - Library -> working code sample
 - CLI -> terminal / command proof
 - GUI -> one real screenshot
-- Agent skill -> install + prompt + lint/inspect behavior (this README)
+- Agent skill -> install + prompt + lint/inspect behavior
 - Internal -> purpose + runbook
 
 ## Secret pattern scanning
@@ -105,6 +108,18 @@ Lint levels:
 ./skills/read-me-launcher/tests/run-tests.sh
 ```
 
+<div align="center">
+
+  <img src="skills/read-me-launcher/assets/preview.png" alt="Preview" width="94%" />
+
+</div>
+
+<div align="center">
+
+  <img src="skills/read-me-launcher/assets/showcase.png" alt="Before and after" width="94%" />
+
+</div>
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -120,7 +135,7 @@ Lint levels:
 ```text
 skills/read-me-launcher/
 ├── SKILL.md
-├── assets/                 # optional demo visuals only
+├── assets/
 ├── scripts/
 │   ├── inspect-repo.sh
 │   └── check-readme.sh
@@ -136,35 +151,6 @@ skills/read-me-launcher/
     ├── fixtures/
     └── run-tests.sh
 ```
-
-## Demo visuals (optional)
-
-Not required to understand or use the skill. Example Launch-mode graphics shipped for reference when a *different* repo’s primary proof is visual.
-
-<details>
-<summary>Show optional demo images</summary>
-
-<br />
-
-<div align="center">
-
-  <img src="skills/read-me-launcher/assets/banner.png" alt="Optional demo banner" width="94%" />
-
-</div>
-
-<div align="center">
-
-  <img src="skills/read-me-launcher/assets/preview.png" alt="Optional demo preview" width="94%" />
-
-</div>
-
-<div align="center">
-
-  <img src="skills/read-me-launcher/assets/showcase.png" alt="Optional demo showcase" width="94%" />
-
-</div>
-
-</details>
 
 ## Pair with consistent-naming
 

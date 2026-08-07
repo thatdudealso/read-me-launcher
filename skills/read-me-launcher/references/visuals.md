@@ -1,97 +1,56 @@
 # Visual craft + GitHub image reality
 
-Visuals are for **consumers**: proof that the project works. Flash is welcome
-when it sells the outcome. Skip flash when a code sample proves more.
+Visuals are optional proof. Prefer the lightest honest evidence
+([taxonomy.md](taxonomy.md), [audience.md](audience.md)).
 
-Also read [audience.md](audience.md) before choosing how loud to go.
-
-## GitHub camo rules (hard)
+## GitHub camo rules (hard errors)
 
 | Do | Do not |
 |----|--------|
-| Prefer **PNG** for README `<img>` heroes | Rely on CSS-class SVGs as the only image |
+| Prefer **PNG/WebP** when embedding raster heroes | Rely on CSS-class SVGs as the only image |
 | SVG only with **inline** `fill`/`stroke`/`font-*` | Depend on `<style>`, `class=`, `@keyframes` |
-| Verify assets render (no broken-image icon) | Leave placeholders / empty src |
-| Keep GIFs under ~5MB if used | Stack typing APIs + snakes + badge carnivals |
+| Verify local images exist | Leave placeholders |
+| Keep GIFs under ~5MB | Stack typing APIs + snakes + badge carnivals |
 
-GitHub’s proxy often strips SVG `<style>` → blank images. **PNG is the default
-hero format** for Launch/Proof modes.
+## When to generate images
 
-## Intensity by mode
+Generate banner/preview/showcase **only if** primary proof is visual/behavioral
+and a graphic is the clearest evidence.
 
-### Launch / Proof (shareable products, skills, CLIs, apps)
+Constraints when generating:
 
-Ship all three when possible:
+- Show **this** product’s outcome, not a fake unrelated dashboard
+- No secrets, tokens, private hostnames, or real customer data
+- Readable at small size; one accent family
+- Prefer PNG for README `<img>` tags
 
-1. `banner.png` — brand + ruthless pitch (flashy, still readable)
-2. `preview.png` — the **outcome** (README window, UI, CLI result)
-3. `showcase.png` — before→after or “watch the value” strip
+If generation would invent UI you have not seen, use a terminal/code proof instead.
 
-This is the floor for repos people will tweet. Decoration without outcome
-preview = fail.
+## Reference assets (Launch examples, not mandates)
 
-Reference quality (this skill):
-
-- [assets/banner.png](../assets/banner.png)
-- [assets/preview.png](../assets/preview.png)
-- [assets/showcase.png](../assets/showcase.png)
-
-### Library
-
-- Optional small logo
-- Hero is a **working code fence** (outside HTML divs), not a marketing mural
-- Add a diagram only if it clarifies an architecture people ask about
-
-### Infra / Internal / Docs-only
-
-- Prefer clarity over flash
-- Diagrams only when they reduce confusion
-- Never invent product art for a private runbook
+This skill’s `assets/*.png` show one valid Launch look. They are a quality
+reference, not a requirement for every public repo.
 
 ## Render-safe structure
+
+Keep fenced code **outside** HTML wrappers:
 
 ```markdown
 <div align="center">
 
-  <img src="assets/banner.png" alt="Project banner" width="100%" />
+  <img src="assets/preview.png" alt="Outcome" width="94%" />
 
-  <p><strong>One sentence: outcome + audience.</strong></p>
+  <p><strong>Pitch.</strong></p>
 
 </div>
 
 ```bash
-gh skill install your-org/your-thing
+npm i your-thing
+```
 ```
 
-<div align="center">
+## Lint levels (see check-readme.sh)
 
-  <img src="assets/preview.png" alt="What you get" width="94%" />
-
-</div>
-```
-
-Never put ` ``` ` fences inside `<div>` / `<section>` / `<center>`.
-
-## Motion
-
-- Prefer a strong static PNG over flaky external typing SVGs
-- Optional: one short demo GIF of the real product (<5MB)
-- Local camo-safe SVG motion is optional; never the only hero
-
-## Creating assets
-
-1. Create `assets/`
-2. Generate PNG banner/preview/showcase that prove the product
-3. Optional inline-attribute SVG twins
-4. One accent family; no purple-glow cliché unless brand
-5. No secrets, private dashboards, or fake UIs you did not see
-6. Skip dull 01/02/03 tile grids unless the art is actually strong
-
-## Anti-patterns
-
-- Broken-image icons on GitHub
-- Vibes-only banners with no product proof
-- Nested fences in HTML
-- External typing host as the sole wow
-- Badge walls / emoji spam
-- Em dashes
+- **ERROR** — broken render, missing image, possible secret
+- **WARN** — fragile patterns (SVG-only, external fetch issues)
+- **PREF** — style (em dashes); `--strict-style` promotes to ERROR

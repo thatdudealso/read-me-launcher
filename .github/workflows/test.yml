@@ -1,0 +1,14 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run fixture tests
+        run: bash skills/read-me-launcher/tests/run-tests.sh

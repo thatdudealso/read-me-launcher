@@ -111,5 +111,32 @@ fi
 echo "--- top-level ---"
 ls -1 | head -40
 
+echo "--- classification hints ---"
+# Heuristic suggestions for taxonomy.md (agent must confirm)
+iface="unknown"
+if [[ -f package.json ]]; then
+  ui_guess="$(python3 - <<'PY'
+import json
+from pathlib import Path
+d=json.loads(Path('package.json').read_text())
+deps=set((d.get('dependencies') or {}))|set((d.get('devDependencies') or {}))
+ui=bool(deps & {'react','vue','svelte','next','@remix-run/react','react-dom'})
+print('GUI-or-web' if ui else 'Library-or-Node-tool')
+PY
+)"
+  iface="$ui_guess"
+fi
+[[ -f Cargo.toml || -f go.mod || -f pyproject.toml ]] && echo "hint_interface: packaged-library-possible"
+[[ -f Dockerfile || -f docker-compose.yml || -f docker-compose.yaml ]] && echo "hint_interface: Service-possible"
+[[ -d skills || -f SKILL.md ]] && echo "hint_interface: Agent-skill-possible"
+if [[ "$visibility" == "private" ]]; then
+  echo "hint_audience: internal-or-private"
+else
+  echo "hint_audience: public-developer"
+fi
+echo "hint_primary_proof: choose from visual|code|behavioral|performance|architectural|operational"
+echo "suggested_interface_guess: $iface"
+
 echo "--- done ---"
+echo "Classify with references/taxonomy.md. Never invent scripts/deps not listed above."
 echo "Use visibility=$visibility when choosing public vs private README mode."

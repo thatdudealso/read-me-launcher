@@ -1,95 +1,90 @@
 ---
 name: read-me-launcher
 description: >-
-  Launch consumer-grade GitHub README.md pages: audience-aware (launch vs
-  library vs internal), flashy PNG proof-heroes that actually render on GitHub,
-  render-safe Markdown, and secret-safe copy. Use when writing or redesigning a
-  README; when images fail; when preparing something shareable (Twitter/Show HN);
-  or when the user wants beautiful, useful, product-quality docs.
+  Write audience-aware, repository-grounded GitHub README.md pages: inspect the
+  real repo first, choose evidence (code/visual/behavioral), keep claims matched
+  to manifests/scripts, render-safe Markdown, and scan for secret leaks. Use when
+  writing or redesigning a README; when install docs drift from reality; when
+  images fail on GitHub; or when the user wants trustworthy developer docs.
 license: MIT
 ---
 
 # Read Me Launcher
 
-Ship a README for **the next developer who lands on the repo**, not for the
-author’s taste alone. Make them get it in five seconds, trust it, and install it.
-When the project is shareable, make the first screen screenshot-worthy.
+Core promise: **a README that matches the repository.**
 
-Broken images and vibes-only fluff are failures.
+Inspect first. Never invent stack facts. Choose the minimum honest proof for the
+audience. Lint for render breaks and secret-looking strings before finishing.
 
-## Step 0: pick audience mode
+## Step 0: classify
 
-Read [references/audience.md](references/audience.md) and choose one:
+1. Run `scripts/inspect-repo.sh`.
+2. Resolve INTERFACE × AUDIENCE × PRIMARY_PROOF
+   ([references/taxonomy.md](references/taxonomy.md)).
+3. Map to a mode shorthand if useful
+   ([references/audience.md](references/audience.md)).
 
-- **Launch** — public product / skill / CLI / app (default for shareable repos)
-- **Proof** — UI-heavy tools (real screenshots)
-- **Library** — packages/SDKs (code example is the hero)
-- **Infra / Internal / Docs-only** — clarity over flash
+## Hard rules (errors)
 
-Do not force a marketing mural onto a pure library. Do not ship a text-only
-Launch page for a product people will tweet.
+- [ ] Claims about install/run/test match inspect output (✓ verified vs ? unknown)
+- [ ] No invented features, scripts, or runtimes
+- [ ] No code fences inside `<div>` / `<section>` / `<center>`
+- [ ] Local images referenced by the README exist
+- [ ] `scripts/check-readme.sh README.md` exits 0 (secret + render checks)
+- [ ] Privacy rules in [references/privacy.md](references/privacy.md)
 
-## Quality bars
+## Strong defaults (not universal mandates)
 
-### Launch / Proof (public, shareable)
+- Libraries lead with working code, not marketing murals
+- Internal repos optimize for runbooks, not launch theater
+- Public GUIs usually need one real screenshot
+- Add banner/preview/showcase only when each asset proves something
+- Prefer PNG when embedding raster heroes ([references/visuals.md](references/visuals.md))
 
-- [ ] PNG hero banner that states the product
-- [ ] PNG preview of the **outcome** (not decoration)
-- [ ] PNG showcase (before→after or equal proof) when it helps sharing
-- [ ] One bold pitch + install outside centered divs
-- [ ] Max 3 badges above the fold
-- [ ] No fences inside `<div>` / `<section>` / `<center>`
-- [ ] `scripts/check-readme.sh README.md` passes
-- [ ] Secret deny-list pass
-- [ ] Five-second test: stranger knows what it is and how to try it
+## Style preferences (warnings / prefs)
 
-Use this skill’s assets as the quality floor:
-[banner.png](assets/banner.png), [preview.png](assets/preview.png),
-[showcase.png](assets/showcase.png).
-
-### Library
-
-- [ ] Pitch + install + **working code sample** above the fold
-- [ ] Optional logo; skip cinematic banners unless the brand needs them
-- [ ] Render-safe Markdown + secret pass
-
-### Internal / docs
-
-- [ ] Purpose, run path, ownership
-- [ ] Minimal or no marketing art
-
-## Why PNG heroes
-
-GitHub camo often strips SVG `<style>` → blank/broken images. Prefer PNG for
-README `<img>` tags. Details: [references/visuals.md](references/visuals.md).
+- Em dashes are a preference (`PREF`); use `--strict-style` only if the user wants hard fails
+- Max ~3 badges above the fold by default
+- Avoid emoji spam and badge walls
 
 ## Workflow
 
-1. **Inspect** with `scripts/inspect-repo.sh` (never invent stack facts).
-2. **Choose mode** via [references/audience.md](references/audience.md).
-3. **Design proof visuals** (or code-first hero for libraries) using
-   [references/visuals.md](references/visuals.md) + [references/design.md](references/design.md).
-4. **Draft README.md** with render-safe structure.
-5. **Lint**: `scripts/check-readme.sh README.md`
-6. **Consumer pass**: would you install this from a Twitter screenshot of the
-   first screen? If no, rewrite.
+1. **Inspect** — `scripts/inspect-repo.sh`
+2. **Classify** — taxonomy + audience
+3. **Choose proof** — minimum necessary evidence
+4. **Draft README** — [references/design.md](references/design.md),
+   [references/section-map.md](references/section-map.md)
+5. **Generate assets only if needed** — [references/generation.md](references/generation.md)
+6. **Lint** — `scripts/check-readme.sh README.md`
+7. **Consumer pass** — would a stranger install from the first screen?
+
+### Claim markers (recommended in drafts / reviews)
+
+| Marker | Meaning |
+|--------|---------|
+| ✓ verified | Confirmed from inspect/manifests |
+| ~ inferred | Reasonable but not explicit in repo |
+| ? unknown | Do not present as fact |
+| ✗ unsupported | Remove or rewrite |
 
 ## Output rules
 
-- Write the README and assets; do not only describe them.
-- Visuals must prove the product (outcome / UI / before-after).
-- Prefer local PNG over flaky external animated hosts.
-- No em dashes. No “Generated by AI”. No secrets.
+- Write the README (and assets only when justified)
+- Prefer correcting an existing good README over destructive rewrites
+- No “Generated by AI”
+- Do not over-claim “secret-safe” beyond what `check-readme.sh` scans; call out residual risk
 
 ## Bundled resources
 
 | Path | When |
 |------|------|
-| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Start |
-| [scripts/check-readme.sh](scripts/check-readme.sh) | Before finish |
-| [references/audience.md](references/audience.md) | Mode selection (consumer first) |
-| [references/visuals.md](references/visuals.md) | Flash + camo-safe images |
-| [references/design.md](references/design.md) | Structure / taste |
-| [references/privacy.md](references/privacy.md) | Secrets |
+| [scripts/inspect-repo.sh](scripts/inspect-repo.sh) | Always first |
+| [scripts/check-readme.sh](scripts/check-readme.sh) | Always before finish |
+| [references/taxonomy.md](references/taxonomy.md) | Classification |
+| [references/audience.md](references/audience.md) | Evidence mode |
+| [references/visuals.md](references/visuals.md) | Image formats |
+| [references/generation.md](references/generation.md) | Asset prompts / bans |
+| [references/design.md](references/design.md) | Structure |
+| [references/privacy.md](references/privacy.md) | Public/private + deny-list |
 | [references/section-map.md](references/section-map.md) | Sections by type |
-| [assets/](assets/) | Launch-mode quality floor |
+| [tests/run-tests.sh](tests/run-tests.sh) | Local verification |

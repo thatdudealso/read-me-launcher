@@ -1,96 +1,196 @@
 #!/usr/bin/env bash
-# Fail on common GitHub README render footguns.
-# Usage: check-readme.sh [README.md]
+# Validate a README for GitHub render safety, missing assets, and secret leaks.
+# Usage: check-readme.sh [README.md] [--strict-style]
+#
+# Exit codes:
+#   0  OK (warnings allowed)
+#   1  ERROR findings
+#   2  usage / missing file
 set -euo pipefail
 
+STRICT_STYLE=0
 README="${1:-README.md}"
+if [[ "${1:-}" == "--strict-style" ]]; then
+  STRICT_STYLE=1
+  README="${2:-README.md}"
+elif [[ "${2:-}" == "--strict-style" ]]; then
+  STRICT_STYLE=1
+fi
+
 ROOT="$(cd "$(dirname "$README")" && pwd -P)"
 FILE="$ROOT/$(basename "$README")"
 [[ -f "$FILE" ]] || { echo "missing: $FILE" >&2; exit 2; }
 
-errors=0
-warn() { echo "WARN: $*" >&2; }
-fail() { echo "ERROR: $*" >&2; errors=$((errors + 1)); }
+export CHECK_README_FILE="$FILE"
+export CHECK_README_ROOT="$ROOT"
+export CHECK_README_STRICT_STYLE="$STRICT_STYLE"
 
-python3 - "$FILE" <<'PY' || true
-import pathlib, re, sys
-text = pathlib.Path(sys.argv[1]).read_text()
-errs = []
+set +e
+python3 <<'PY'
+import os
+import pathlib
+import re
+import sys
+import urllib.request
 
-# Nested markdown fences inside HTML div/section/center blocks break GFM hard.
+file_path = pathlib.Path(os.environ["CHECK_README_FILE"])
+root = pathlib.Path(os.environ["CHECK_README_ROOT"])
+strict_style = os.environ.get("CHECK_README_STRICT_STYLE") == "1"
+text = file_path.read_text(encoding="utf-8", errors="replace")
+
+errors: list[str] = []
+warnings: list[str] = []
+prefs: list[str] = []
+
+
+def err(msg: str) -> None:
+    errors.append(msg)
+
+
+def warn(msg: str) -> None:
+    warnings.append(msg)
+
+
+def pref(msg: str) -> None:
+    prefs.append(msg)
+
+
+# --- ERROR: nested fences inside HTML containers ---
 for tag in ("div", "section", "center"):
     for m in re.finditer(rf"<{tag}\b[\s\S]*?</{tag}>", text, flags=re.I):
-        block = m.group(0)
-        if "```" in block:
-            errs.append(f"nested code fence inside <{tag}> (breaks GitHub render) at char {m.start()}")
+        if "```" in m.group(0):
+            err(f"nested code fence inside <{tag}> (breaks GitHub render) at char {m.start()}")
 
-# Empty/placeholder images
-for m in re.finditer(r'!\[[^\]]*\]\(([^)]+)\)|<img[^>]+src=["\']([^"\']+)["\']', text, flags=re.I):
-    src = m.group(1) or m.group(2)
+# --- ERROR: placeholder / broken image markup ---
+img_srcs: list[str] = []
+for m in re.finditer(
+    r"!\[[^\]]*\]\(([^)]+)\)|<img[^>]+src=[\"']([^\"']+)[\"']",
+    text,
+    flags=re.I,
+):
+    src = (m.group(1) or m.group(2) or "").strip()
+    img_srcs.append(src)
     if not src or src.lower() in {"todo.png", "todo.jpg", "image.png", "#"}:
-        errs.append(f"placeholder image src: {src!r}")
-    if " " in src.strip() and not src.startswith("data:"):
-        errs.append(f"image src contains spaces (often breaks): {src!r}")
+        err(f"placeholder image src: {src!r}")
+    if " " in src and not src.startswith("data:"):
+        err(f"image src contains spaces (often breaks): {src!r}")
 
-# Div without blank line after open / before close (GFM HTML/Markdown interop)
+# --- WARN: div without blank line after open ---
 for m in re.finditer(r"<div\b[^>]*>\n(?!\n)", text):
-    errs.append(f"<div> should be followed by a blank line before Markdown (char {m.start()})")
+    warn(f"<div> should be followed by a blank line before Markdown (char {m.start()})")
 
-if "em dash" in text or "\u2014" in text:
-    errs.append("contains em dash (skill forbids)")
+# --- PREF / optional ERROR: em dash style ---
+if "\u2014" in text or re.search(r"\bem dash\b", text, flags=re.I):
+    msg = "contains em dash (style preference; use hyphen or rephrase)"
+    if strict_style:
+        err(msg)
+    else:
+        pref(msg)
 
-# Prefer PNG heroes in README img tags; flag SVG-only hero patterns that often break
-imgs = re.findall(r'<img[^>]+src=["\']([^"\']+)["\']', text, flags=re.I)
-svg_imgs = [u for u in imgs if u.lower().endswith('.svg') and not u.startswith('http')]
-png_imgs = [u for u in imgs if u.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
-if svg_imgs and not png_imgs:
-    errs.append("README uses local SVG images but no PNG; GitHub camo often blanks CSS-based SVGs — ship PNG heroes")
+# --- WARN: local SVG without raster companion ---
+local_svg = [
+    u
+    for u in img_srcs
+    if u.lower().endswith(".svg") and not u.startswith(("http://", "https://", "data:"))
+]
+local_raster = [
+    u
+    for u in img_srcs
+    if u.lower().endswith((".png", ".jpg", ".jpeg", ".webp"))
+    and not u.startswith(("http://", "https://", "data:"))
+]
+if local_svg and not local_raster:
+    warn(
+        "README uses local SVG images but no PNG/JPEG/WebP; "
+        "GitHub camo often blanks CSS-based SVGs"
+    )
 
-for e in errs:
-    print(e)
-sys.exit(1 if errs else 0)
-PY
-py_status=$?
-if [[ $py_status -ne 0 ]]; then
-  errors=$((errors + 1))
-fi
+# --- ERROR: missing local images ---
+for src in img_srcs:
+    if not src or src.startswith(("http://", "https://", "data:")):
+        continue
+    clean = src.split("#", 1)[0]
+    if not (root / clean).is_file():
+        err(f"local image missing: {clean}")
 
-# Check local relative image paths exist
-while IFS= read -r src; do
-  [[ -z "$src" ]] && continue
-  [[ "$src" == http://* || "$src" == https://* || "$src" == data:* ]] && continue
-  # strip anchors
-  clean="${src%%#*}"
-  if [[ ! -f "$ROOT/$clean" ]]; then
-    fail "local image missing: $clean"
-  fi
-done < <(python3 - "$FILE" <<'PY'
-import pathlib, re, sys
-text = pathlib.Path(sys.argv[1]).read_text()
-for m in re.finditer(r'!\[[^\]]*\]\(([^)]+)\)|<img[^>]+src=["\']([^"\']+)["\']', text, flags=re.I):
-    print(m.group(1) or m.group(2))
-PY
+# --- ERROR: secret / credential patterns (deny-list enforcement) ---
+fake_markers = (
+    "example",
+    "sample",
+    "dummy",
+    "fake",
+    "placeholder",
+    "your-",
+    "xxx",
+    "redacted",
+    "<",
+    "changeme",
+    "not-a-real",
+    "sk-example",
 )
 
-# Optional: HEAD-check a few external images (best-effort)
-if command -v curl >/dev/null 2>&1; then
-  while IFS= read -r url; do
-    [[ "$url" == https://* || "$url" == http://* ]] || continue
-    code=$(curl -sI -o /dev/null -w '%{http_code}' --max-time 8 "$url" || echo 000)
-    if [[ "$code" != 200 && "$code" != 301 && "$code" != 302 ]]; then
-      fail "external image HTTP $code: $url"
-    fi
-  done < <(python3 - "$FILE" <<'PY'
-import pathlib, re, sys
-text = pathlib.Path(sys.argv[1]).read_text()
-for m in re.finditer(r'!\[[^\]]*\]\((https?://[^)]+)\)|<img[^>]+src=["\'](https?://[^"\']+)["\']', text, flags=re.I):
-    print(m.group(1) or m.group(2))
-PY
-)
-fi
 
-if [[ $errors -gt 0 ]]; then
-  echo "check-readme: FAILED ($errors)" >&2
-  exit 1
-fi
-echo "check-readme: OK"
+def looks_fake(s: str) -> bool:
+    low = s.lower()
+    return any(m in low for m in fake_markers)
+
+
+secret_patterns = [
+    ("GitHub PAT", re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b")),
+    ("AWS access key id", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    ("OpenAI-like key", re.compile(r"\bsk-[A-Za-z0-9]{20,}\b")),
+    ("Stripe live key", re.compile(r"\bsk_live_[A-Za-z0-9]{16,}\b")),
+    ("Slack token", re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}\b")),
+    ("Bearer token", re.compile(r"\bBearer\s+[A-Za-z0-9._\-+/=]{20,}\b")),
+    (
+        "DB URL with password",
+        re.compile(r"\b(?:postgres|postgresql|mysql|mongodb)://[^:\s]+:[^@\s]+@"),
+    ),
+    (
+        "PEM private key block",
+        re.compile(r"-----BEGIN (?:RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----"),
+    ),
+]
+
+for label, pat in secret_patterns:
+    for m in pat.finditer(text):
+        snippet = m.group(0)
+        if looks_fake(snippet):
+            continue
+        # Truncate for safe logging
+        shown = snippet[:24] + ("…" if len(snippet) > 24 else "")
+        err(f"possible secret ({label}): {shown}")
+
+# --- WARN: external image HEAD checks (best effort) ---
+for src in img_srcs:
+    if not src.startswith(("http://", "https://")):
+        continue
+    try:
+        req = urllib.request.Request(src, method="HEAD")
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            code = getattr(resp, "status", 200)
+        if code not in (200, 301, 302):
+            warn(f"external image HTTP {code}: {src}")
+    except Exception as exc:  # noqa: BLE001 - lint should not crash
+        warn(f"external image fetch failed ({exc.__class__.__name__}): {src}")
+
+for e in errors:
+    print(f"ERROR: {e}", file=sys.stderr)
+for w in warnings:
+    print(f"WARN: {w}", file=sys.stderr)
+for p in prefs:
+    print(f"PREF: {p}", file=sys.stderr)
+
+if errors:
+    print(f"check-readme: FAILED ({len(errors)} error(s), {len(warnings)} warning(s))", file=sys.stderr)
+    sys.exit(1)
+
+print(
+    f"check-readme: OK ({len(warnings)} warning(s), {len(prefs)} preference(s))",
+    file=sys.stderr,
+)
+sys.exit(0)
+PY
+status=$?
+set -e
+exit "$status"

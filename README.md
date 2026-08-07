@@ -2,8 +2,8 @@
 
   <img src="skills/read-me-launcher/assets/banner.png" alt="read-me-launcher" width="100%" />
 
-  <p><strong>An Agent Skill that launches READMEs developers actually want to open.</strong><br />
-  Consumer-first. Share-ready. PNG heroes that render on GitHub. Secret-safe.</p>
+  <p><strong>Audience-aware, repository-grounded README generation for agents.</strong><br />
+  Inspect first. Match claims to the repo. Choose minimum honest proof. Lint render breaks and common secret patterns.</p>
 
   <p>
     <a href="https://github.com/thatdudealso/read-me-launcher/releases"><img src="https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e" alt="Release" /></a>
@@ -13,111 +13,157 @@
 
 </div>
 
-```bash
-gh skill install thatdudealso/read-me-launcher
-```
+## Install
 
-<div align="center">
-
-  <img src="skills/read-me-launcher/assets/preview.png" alt="What the skill produces" width="94%" />
-
-</div>
-
-<div align="center">
-
-  <img src="skills/read-me-launcher/assets/showcase.png" alt="Before and after README craft" width="94%" />
-
-</div>
-
-## Built for the next developer (and your tweet)
-
-A good README is not for you. It is for the stranger who lands cold, or the
-timeline that sees one screenshot.
-
-Top repos put **proof** above the fold: what it is, what success looks like, one
-install command. Pictures are not the enemy. Useless pictures are.
-
-**read-me-launcher** picks an audience mode, then ships the right intensity:
-
-| Mode | Best for | Visuals |
-|------|----------|---------|
-| Launch | Products, skills, CLIs you will share | Flashy PNG banner + outcome preview + showcase |
-| Proof | UI tools | Real product screenshots |
-| Library | Packages / SDKs | Code sample as the hero (not a mural) |
-| Internal | Private tools | Runbook clarity, minimal marketing |
-
-## Why it works on GitHub
-
-Fancy SVG + CSS classes often die in GitHub’s image proxy (broken image icon).
-This skill defaults to **PNG heroes**, keeps install fences **outside** HTML
-divs, and lints with `check-readme.sh` before you ship.
-
-## Quick start
-
-```bash
-gh skill install thatdudealso/read-me-launcher
-```
-
-Pin:
-
-```bash
-gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.4.0
-```
-
-Ask your agent:
-
-```text
-/read-me-launcher
-
-Consumer-first README. If this is shareable, use Launch mode with PNG
-banner + preview + showcase. Prove the product. Lint with check-readme.sh.
-```
-
-### Manual install
+**Manual (works everywhere skills load):**
 
 ```bash
 git clone https://github.com/thatdudealso/read-me-launcher.git
 ln -sfn "$(pwd)/read-me-launcher/skills/read-me-launcher" ~/.cursor/skills/read-me-launcher
+# also: ~/.claude/skills  ~/.codex/skills  ~/.agents/skills
 ```
 
-## What the skill enforces
+**GitHub CLI (if you use `gh skill`):**
 
-1. Choose audience mode (`references/audience.md`)
-2. Inspect the real repo
-3. Ship proof visuals (or code-first for libraries)
-4. Write render-safe Markdown
-5. Lint + secret scrub
+```bash
+gh skill install thatdudealso/read-me-launcher
+```
 
-This page is Launch mode applied to itself: flashy on purpose, useful on purpose.
+Pin a release when you want a fixed version:
+
+```bash
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.5.0
+```
+
+## What it actually does
+
+| Step | Tooling |
+|------|---------|
+| Inspect manifests, scripts, visibility | `scripts/inspect-repo.sh` |
+| Classify interface × audience × proof | `references/taxonomy.md` |
+| Draft with evidence-first defaults | `SKILL.md` + references |
+| Fail on nested fences, missing images, common secrets | `scripts/check-readme.sh` |
+
+### Before → after (text)
+
+**Before (common drift):**
+
+```markdown
+## Run
+npm start
+```
+
+(but the repo only defines `pnpm dev`)
+
+**After (grounded):**
+
+```markdown
+## Run
+pnpm dev
+```
+
+(✓ verified from `package.json` scripts)
+
+### Proof, not perfume
+
+Public + shareable does **not** mean three PNGs. Pick the cheapest honest proof:
+
+- Library → working code sample
+- CLI → terminal / command proof
+- GUI → one real screenshot
+- Internal → purpose + runbook
+
+Hero art is optional evidence, not a ritual.
+
+## Example agent prompt
+
+```text
+Use read-me-launcher on this repo.
+1) Run inspect-repo.sh
+2) Classify interface / audience / primary proof
+3) Rewrite README with verified install/run commands only
+4) Use minimum proof (code unless visual proof is required)
+5) Run check-readme.sh and fix errors
+```
+
+## Secret pattern scanning
+
+`check-readme.sh` **errors** on common credential shapes in README text, including GitHub PATs, AWS `AKIA…` keys, OpenAI-like `sk-…` keys (skips obvious fakes), Stripe live keys, Slack tokens, Bearer tokens, DB URLs with passwords, and PEM private key blocks.
+
+This is pattern scanning, not a full secret-management product. Do not paste live `.env` contents into docs.
+
+Lint levels:
+
+- **ERROR** — broken render, missing image, possible secret
+- **WARN** — fragile patterns
+- **PREF** — style (em dashes); `--strict-style` to promote
+
+```bash
+./skills/read-me-launcher/scripts/check-readme.sh README.md
+./skills/read-me-launcher/scripts/check-readme.sh README.md --strict-style
+```
+
+## Verify locally
+
+```bash
+./skills/read-me-launcher/tests/run-tests.sh
+```
+
+## Demo visuals (Launch example, not a mandate)
+
+<div align="center">
+
+  <img src="skills/read-me-launcher/assets/preview.png" alt="Outcome preview example" width="94%" />
+
+</div>
+
+<div align="center">
+
+  <img src="skills/read-me-launcher/assets/showcase.png" alt="Before and after example" width="94%" />
+
+</div>
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Broken image icon | CSS-class SVG stripped by GitHub camo | Use PNG/WebP, or inline-attribute SVG |
+| Raw ` ``` ` showing in page | Fence nested inside `<div>` | Move fences outside HTML wrappers |
+| `check-readme` fails on `sk-…` | Real-looking key in README | Use `sk-example-…` or document name only |
+| Install command wrong | Invented from memory | Re-run `inspect-repo.sh` and copy real scripts |
+| Skill not found by agent | Not on skill path | Use manual symlink into `~/.cursor/skills` etc. |
 
 ## Layout
 
 ```text
 skills/read-me-launcher/
 ├── SKILL.md
-├── assets/
-│   ├── banner.png      # share-ready hero
-│   ├── preview.png     # outcome proof
-│   ├── showcase.png    # before → after
-│   ├── banner.svg      # inline-attribute fallback
-│   └── preview.svg
+├── assets/                 # example Launch visuals
 ├── scripts/
 │   ├── inspect-repo.sh
 │   └── check-readme.sh
-└── references/
-    ├── audience.md     # launch vs library vs internal
-    ├── visuals.md
-    ├── design.md
-    ├── privacy.md
-    └── section-map.md
+├── references/
+│   ├── taxonomy.md
+│   ├── audience.md
+│   ├── visuals.md
+│   ├── generation.md
+│   ├── design.md
+│   ├── privacy.md
+│   └── section-map.md
+└── tests/
+    ├── fixtures/
+    └── run-tests.sh
 ```
 
 ## Pair with consistent-naming
 
 ```bash
 gh skill install thatdudealso/consistent-naming
-gh skill install thatdudealso/read-me-launcher
 ```
+
+or symlink from https://github.com/thatdudealso/consistent-naming
+
+Workflow: name with `consistent-naming`, document with `read-me-launcher` so the tree and the landing page agree.
 
 ## License
 

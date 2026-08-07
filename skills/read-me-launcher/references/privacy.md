@@ -68,11 +68,27 @@ For examples use obviously fake values:
 export OPENAI_API_KEY=sk-example-not-a-real-key
 ```
 
+## Automated scan (partial)
+
+`scripts/check-readme.sh` fails on common credential shapes in the README text:
+
+- GitHub PATs (`ghp_` / `gho_` / …)
+- AWS access key IDs (`AKIA…`)
+- OpenAI-like `sk-…` keys (skips obvious fakes like `sk-example`)
+- Stripe `sk_live_…`, Slack `xox…`, Bearer tokens
+- DB URLs with embedded passwords
+- PEM private key blocks
+
+This is **pattern scanning**, not a full secret-management system. Residual risk
+remains (novel formats, secrets in images). Prefer wording “scans for common
+secret patterns” over absolute “secret-proof.”
+
 ## Pre-flight checklist
 
 Before finishing a README:
 
-- [ ] No real secrets or credential-looking strings
+- [ ] `check-readme.sh` passes (includes secret pattern scan)
 - [ ] Visibility mode matches public vs private guidance
 - [ ] Install/run commands match the repo's real toolchain
 - [ ] `.env.example` referenced if it exists; never paste live `.env`
+- [ ] Screenshots do not show private dashboards or tokens

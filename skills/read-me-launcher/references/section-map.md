@@ -1,70 +1,72 @@
-# Section map by project type
+# Section map by composition
 
-Pick the smallest set that covers truth. Prefer omission over filler.
-Pair with [audience.md](audience.md) for visual intensity.
+Compose from [taxonomy.md](taxonomy.md). Prefer omission over filler.
 
-## Agent skill / developer tool (Launch)
+## Library (code proof)
 
-- Hero PNG + pitch + badges
-- Outcome preview PNG
-- Optional showcase (before→after)
-- Install (outside HTML divs)
-- Why / comparison (short)
-- Usage prompt / example ask
+- Pitch
+- Install (verified scripts/package manager)
+- Working usage example
+- API surface or link to docs
+- License
+
+## CLI (behavioral proof)
+
+- Pitch
+- Install
+- Realistic commands from `--help` / scripts
+- Optional one terminal proof image
+- Config / auth **names only**
+
+## GUI app (visual proof)
+
+- Pitch
+- One real screenshot / demo
+- Quick start
+- Config table if needed
+- License / Contributing
+
+## API (request/response proof)
+
+- Pitch
+- Install / base URL pattern (non-secret)
+- Example request + response
+- Auth header names only
+- License
+
+## Service / worker (operational / architectural)
+
+- Purpose
+- How to run locally (verified)
+- Architecture sketch only if clarifying
+- Config names
+- Ownership (internal)
+
+## Agent skill
+
+- Pitch
+- Install (`gh skill` and/or manual symlink)
+- Example agent prompt
+- What inspect/lint enforce
 - Layout
 - License
 
-## Library / package
-
-- Pitch
-- Install
-- Minimal usage example (**this is the visual**)
-- API surface (link if large)
-- Development / publish
-- License
-
-## App / API / service
-
-- Pitch + UI screenshot or API quickstart
-- Features (outcomes)
-- Quick start
-- Configuration table (names only)
-- Common scripts
-- License / Contributing
-
-## CLI tool
-
-- Pitch
-- Terminal preview or command output proof
-- Install
-- Realistic command examples
-- Configuration / auth (names only)
-
 ## Monorepo
 
-- Pitch for the workspace
+- Workspace pitch
 - Package map table
-- How to run the primary app
-- Package-local work
-- Real tooling names only
+- Primary app run path
+- Package-local commands
+- Real tooling only
 
-## Game / creative
+## Dotfiles
 
-- Pitch + platform targets
-- Visual proof (screenshot)
-- Open / build / run commands
-- Asset notes (non-secret)
-
-## Dotfiles / machine config
-
-- Pitch
-- Apply / rebuild command
-- Structure overview
+- What the repo controls
+- Apply/rebuild command
+- Structure
 - Secrets warning
 
-## Private internal tool
+## Docs-only
 
-- Purpose + owner
-- Local setup
-- Ops pointers (no credentials)
-- Support channel name
+- What to read first
+- How to contribute edits

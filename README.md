@@ -94,9 +94,9 @@ This is pattern scanning, not a full secret-management product. Do not paste liv
 
 Lint levels:
 
-- **ERROR** — broken render, missing image, possible secret
-- **WARN** — fragile patterns
-- **PREF** — style (em dashes); `--strict-style` to promote
+- **ERROR**  -  broken render, missing image, possible secret
+- **WARN**  -  fragile patterns
+- **PREF**  -  style (em dashes); `--strict-style` to promote
 
 ```bash
 ./skills/read-me-launcher/scripts/check-readme.sh README.md

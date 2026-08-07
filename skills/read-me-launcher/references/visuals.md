@@ -51,6 +51,6 @@ npm i your-thing
 
 ## Lint levels (see check-readme.sh)
 
-- **ERROR** — broken render, missing image, possible secret
-- **WARN** — fragile patterns (SVG-only, external fetch issues)
-- **PREF** — style (em dashes); `--strict-style` promotes to ERROR
+- **ERROR**  -  broken render, missing image, possible secret
+- **WARN**  -  fragile patterns (SVG-only, external fetch issues)
+- **PREF**  -  style (em dashes); `--strict-style` promotes to ERROR

@@ -49,14 +49,14 @@ audience. Lint for render breaks and secret-looking strings before finishing.
 
 ## Workflow
 
-1. **Inspect** — `scripts/inspect-repo.sh`
-2. **Classify** — taxonomy + audience
-3. **Choose proof** — minimum necessary evidence
-4. **Draft README** — [references/design.md](references/design.md),
+1. **Inspect**  -  `scripts/inspect-repo.sh`
+2. **Classify**  -  taxonomy + audience
+3. **Choose proof**  -  minimum necessary evidence
+4. **Draft README**  -  [references/design.md](references/design.md),
    [references/section-map.md](references/section-map.md)
-5. **Generate assets only if needed** — [references/generation.md](references/generation.md)
-6. **Lint** — `scripts/check-readme.sh README.md`
-7. **Consumer pass** — would a stranger install from the first screen?
+5. **Generate assets only if needed**  -  [references/generation.md](references/generation.md)
+6. **Lint**  -  `scripts/check-readme.sh README.md`
+7. **Consumer pass**  -  would a stranger install from the first screen?
 
 ### Claim markers (recommended in drafts / reviews)
 

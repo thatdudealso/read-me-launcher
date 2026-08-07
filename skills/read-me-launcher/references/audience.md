@@ -9,10 +9,10 @@ Keep these names for compatibility, but resolve them from taxonomy axes:
 
 | Mode | Composition | Visual intensity |
 |------|-------------|------------------|
-| **Launch** | Public + (GUI/CLI/Agent skill) + needs memorable first screen | Medium–high, still minimum-proof |
+| **Launch** | Public + (GUI/CLI/Agent skill) + needs memorable first screen | Medium-high, still minimum-proof |
 | **Proof** | GUI / visual product | High (real screenshot) |
 | **Library** | Library interface | Low (code is the hero) |
-| **Infra** | Service / architecture-heavy | Low–medium (diagram only if clarifying) |
+| **Infra** | Service / architecture-heavy | Low-medium (diagram only if clarifying) |
 | **Internal** | Internal audience | Low (runbook) |
 | **Docs-only** | Docs interface | Minimal |
 

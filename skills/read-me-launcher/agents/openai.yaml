@@ -1,4 +1,4 @@
 interface:
   display_name: "Read Me Launcher"
-  short_description: "Museum-quality READMEs; render-safe + visual craft"
-  default_prompt: "Launch a museum-quality README. Create local theme-aware SVG hero/preview/feature assets, keep code fences outside HTML divs, run check-readme.sh, keep secrets out, and make the first screen irresistible."
+  short_description: "Flashy PNG README heroes that actually render on GitHub"
+  default_prompt: "Launch a museum-quality README with PNG heroes that render on GitHub camo. Avoid CSS-class SVGs as primary images. Keep code fences outside HTML divs. Run check-readme.sh. No secrets."

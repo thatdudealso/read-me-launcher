@@ -1,11 +1,9 @@
 <div align="center">
 
-  <img src="skills/read-me-launcher/assets/banner.svg" alt="read-me-launcher" width="100%" />
-
-  <img src="skills/read-me-launcher/assets/tagline.svg" alt="READMEs that feel owned" width="720" />
+  <img src="skills/read-me-launcher/assets/banner.png" alt="read-me-launcher" width="100%" />
 
   <p><strong>An Agent Skill that launches museum-quality GitHub READMEs.</strong><br />
-  Hero craft. Truthful install paths. Credential deny-list. Render-safe Markdown.</p>
+  Flashy heroes that actually render. Truthful installs. Credential deny-list.</p>
 
   <p>
     <a href="https://github.com/thatdudealso/read-me-launcher/releases"><img src="https://img.shields.io/github/v/release/thatdudealso/read-me-launcher?style=flat-square&color=0f766e" alt="Release" /></a>
@@ -21,28 +19,31 @@ gh skill install thatdudealso/read-me-launcher
 
 <div align="center">
 
-  <img src="skills/read-me-launcher/assets/preview.svg" alt="Product preview" width="94%" />
+  <img src="skills/read-me-launcher/assets/preview.png" alt="Product preview" width="94%" />
 
 </div>
 
 <div align="center">
 
-  <img src="skills/read-me-launcher/assets/features.svg" alt="Capabilities" width="94%" />
+  <img src="skills/read-me-launcher/assets/showcase.png" alt="Before and after README craft" width="94%" />
 
 </div>
 
 ## Why this exists
 
-Most READMEs die in the first screen: scaffold dumps, badge walls, invented claims, and broken Markdown that GitHub cannot render cleanly.
+Most README “upgrades” still fail in two ugly ways:
 
-**read-me-launcher** forces a higher bar and a safer renderer.
+1. They look like every other AI scaffold
+2. Their “fancy SVG” dies on GitHub’s image proxy (broken image icon)
+
+**read-me-launcher** is built for both problems: extreme craft, and formats GitHub will actually show.
 
 | Without it | With it |
 |---|---|
-| Text-only “Getting Started” | Custom SVG hero + preview |
-| Nested fences that break GitHub | Lint that blocks those footguns |
-| Flaky external animated images | Local motion inside committed SVGs |
-| Secrets and fake stack claims | Inspect-first + deny-list |
+| Blank / broken SVG heroes | PNG heroes that render in camo |
+| Nested fences that nuke the page | Lint that blocks those footguns |
+| Dull feature tile grids | Cinematic before → after showcase |
+| Secrets and fake claims | Inspect-first + deny-list |
 
 ## Quick start
 
@@ -50,10 +51,10 @@ Most READMEs die in the first screen: scaffold dumps, badge walls, invented clai
 gh skill install thatdudealso/read-me-launcher
 ```
 
-Pin a release:
+Pin:
 
 ```bash
-gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.2.0
+gh skill install thatdudealso/read-me-launcher read-me-launcher --pin v1.3.0
 ```
 
 Ask your agent:
@@ -61,8 +62,8 @@ Ask your agent:
 ```text
 /read-me-launcher
 
-Make this README feel like a product launch. Create local SVG assets.
-Keep code fences outside HTML divs. Run check-readme.sh. No secrets.
+Make this README feel like a product launch. Use PNG heroes that render on
+GitHub. Keep code fences outside HTML divs. Run check-readme.sh. No secrets.
 ```
 
 ### Manual install
@@ -72,15 +73,13 @@ git clone https://github.com/thatdudealso/read-me-launcher.git
 ln -sfn "$(pwd)/read-me-launcher/skills/read-me-launcher" ~/.cursor/skills/read-me-launcher
 ```
 
-Works the same for `~/.claude/skills`, `~/.codex/skills`, and `~/.agents/skills`.
-
 ## What the skill enforces
 
-1. **Inspect** the real repo (`scripts/inspect-repo.sh`)
-2. **Design** hero / preview / feature graphics first
-3. **Write** a render-safe README (no fences inside centered divs)
-4. **Lint** with `scripts/check-readme.sh`
-5. **Scrub** credentials via the deny-list
+1. Inspect the real repo
+2. Ship flashy **PNG** banner/preview (SVG only as camo-safe inline fallback)
+3. Write render-safe Markdown
+4. Lint with `scripts/check-readme.sh`
+5. Scrub credentials
 
 This page is the skill applied to itself.
 
@@ -90,16 +89,17 @@ This page is the skill applied to itself.
 skills/read-me-launcher/
 ├── SKILL.md
 ├── assets/
-│   ├── banner.svg
-│   ├── tagline.svg
-│   ├── preview.svg
-│   └── features.svg
+│   ├── banner.png
+│   ├── preview.png
+│   ├── showcase.png
+│   ├── banner.svg          # inline-attribute fallback
+│   └── preview.svg
 ├── scripts/
 │   ├── inspect-repo.sh
 │   └── check-readme.sh
 └── references/
-    ├── design.md
     ├── visuals.md
+    ├── design.md
     ├── privacy.md
     └── section-map.md
 ```
@@ -110,8 +110,6 @@ skills/read-me-launcher/
 gh skill install thatdudealso/consistent-naming
 gh skill install thatdudealso/read-me-launcher
 ```
-
-Name with [`consistent-naming`](https://github.com/thatdudealso/consistent-naming). Launch the front door with this skill.
 
 ## License
 

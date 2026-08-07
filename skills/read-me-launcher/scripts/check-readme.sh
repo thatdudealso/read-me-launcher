@@ -39,6 +39,13 @@ for m in re.finditer(r"<div\b[^>]*>\n(?!\n)", text):
 if "em dash" in text or "\u2014" in text:
     errs.append("contains em dash (skill forbids)")
 
+# Prefer PNG heroes in README img tags; flag SVG-only hero patterns that often break
+imgs = re.findall(r'<img[^>]+src=["\']([^"\']+)["\']', text, flags=re.I)
+svg_imgs = [u for u in imgs if u.lower().endswith('.svg') and not u.startswith('http')]
+png_imgs = [u for u in imgs if u.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
+if svg_imgs and not png_imgs:
+    errs.append("README uses local SVG images but no PNG; GitHub camo often blanks CSS-based SVGs — ship PNG heroes")
+
 for e in errs:
     print(e)
 sys.exit(1 if errs else 0)

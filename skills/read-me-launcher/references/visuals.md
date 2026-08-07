@@ -1,87 +1,72 @@
-# Visual craft (extreme bar) + render safety
+# Visual craft (extreme bar) + GitHub image reality
 
-Great READMEs are product pages. This skill aims for **museum-quality front
-doors**, not "nicer markdown."
+GitHub’s image proxy (camo) and blob preview are harsh:
 
-Also: GitHub Markdown is fragile. Creative does not mean broken. Every visual
-trick must survive GitHub’s renderer.
+- `<style>` + CSS classes inside SVG are often stripped → **blank/broken images**
+- External animated hosts flake or 403
+- Nested Markdown fences inside `<div>` break the whole README
+
+So: be flashy, but ship formats GitHub will actually show.
+
+## Hard image rules
+
+| Do | Do not |
+|----|--------|
+| Prefer **PNG** heroes in the README (`assets/banner.png`) | Rely on CSS-class SVGs as the only README image |
+| If shipping SVG, use **inline** `fill`/`stroke`/`font-*` attributes | Depend on `<style>`, `class=`, `@keyframes` for critical pixels |
+| Keep SVG simple (gradients + shapes + text OK) | Expect `@media` theme CSS to save a class-based SVG |
+| Verify raw URL returns `200` and image renders | Leave `todo.png` / empty src |
+| Max one motion trick; prefer static flashy PNG | Stack typing APIs + snakes + stats |
+
+**Default for public product READMEs:** PNG banner + PNG preview (+ optional PNG showcase). Keep camo-safe SVG as optional fallback, not the primary `<img>`.
 
 ## Extreme quality bar
 
-Public product / tool / skill READMEs must clear all of these:
+1. Flashy PNG hero that stops the scroll
+2. Outcome preview graphic (window / after-state)
+3. One showcase graphic (before→after or launch strip) — not a boring 3-tile grid unless it’s genuinely hot
+4. Ruthless pitch + install outside HTML wrappers
+5. Max 3 badges
+6. `scripts/check-readme.sh` passes
+7. Taste test: remove the name; if generic, rewrite
 
-1. **Hero that stops the scroll** - custom in-repo SVG banner (not a stock badge)
-2. **Outcome preview** - window/terminal/card graphic of what the tool produces
-3. **Capability strip** - 3 visual beats (SVG cards or equally sharp layout)
-4. **Ruthless pitch** - one sentence; outcome + audience
-5. **Install under 10 seconds of reading** - outside any HTML wrapper if fenced
-6. **Local motion only by default** - CSS/SMIL inside committed SVGs
-7. **Taste test** - remove the name; if it looks like any starter, rewrite
-8. **Render lint clean** - `scripts/check-readme.sh` must pass
-
-Private repos may skip heavy graphics; polish and accuracy still required.
-
-## Render rules (hard fails)
-
-These cause “can’t render”, weird link glitches, or broken first screens:
-
-| Rule | Why |
-|------|-----|
-| **Never put ` ``` ` fences inside `<div>` / `<section>` / `<center>`** | Breaks GFM; raw fences / half-rendered pages |
-| Blank line after `<div ...>` and before `</div>` | Markdown inside HTML needs breathing room |
-| Prefer **local** `assets/*.svg` over external animated hosts | External hosts 403/flake; camo breaks trust |
-| No placeholder images (`todo.png`, empty src) | Instant amateur signal |
-| No spaces in image URLs/paths | Broken images |
-| Max **one** motion element in the hero | Carnival = less luxury |
-| Max **3** badges above the fold | Badge walls kill taste |
-| Validate with `scripts/check-readme.sh` before finishing | Catches the footguns above |
-
-### Install command placement
-
-Put fenced install blocks **outside** centered HTML:
+## Render-safe README structure
 
 ```markdown
 <div align="center">
 
-  <img src="assets/banner.svg" alt="banner" width="100%" />
+  <img src="assets/banner.png" alt="Project banner" width="100%" />
 
-  <p><strong>Pitch goes here.</strong></p>
+  <p><strong>One sentence pitch.</strong></p>
 
 </div>
 
 ```bash
-gh skill install your-org/your-skill
+gh skill install your-org/your-thing
 ```
+
+<div align="center">
+
+  <img src="assets/preview.png" alt="Preview" width="94%" />
+
+</div>
 ```
 
-## Preferred visual stack
+Never put ` ``` ` fences inside the `<div>`.
 
-1. **Local theme-aware SVG** in `assets/` or `.github/assets/` (best)
-2. **Local animated SVG** (CSS `@keyframes` or simple SMIL) for taglines
-3. Shields badges (max 3)
-4. External typing/banner APIs only if the user insists **and** HEAD returns 200
+## Creating assets
 
-Reference quality in this skill:
+1. Create `assets/` (repo root or skill path).
+2. Produce **PNG** banner/preview (generate or export). Wide, high contrast, one accent.
+3. Optionally add camo-safe SVG twin with inline attributes only.
+4. No purple-glow cliché unless brand. No secrets in graphics.
+5. Skip dull “01 / 02 / 03 card grids” unless the visual is actually striking.
 
-- `assets/banner.svg`
-- `assets/tagline.svg`
-- `assets/preview.svg`
-- `assets/features.svg`
+## Anti-patterns (instant fail)
 
-## Creating assets when missing
-
-1. Create `assets/` at repo root (or keep under the skill path if this is a skill repo).
-2. Ship theme-aware SVG (`prefers-color-scheme` styles inside the file).
-3. One accent color family; ink background; no purple glow cliché unless brand.
-4. Never invent private UI screenshots or real secrets in preview cards.
-5. Prefer SVG over JPEG/PNG for heroes. If you generate a raster, also ship SVG.
-
-## Anti-patterns
-
-- Text-only public product README
-- Nested fences in HTML wrappers
-- Flaky third-party animated images as the only hero
-- Placeholder screenshots
-- Giant ASCII logos
+- Class-based SVG as the only hero (breaks on GitHub)
+- Nested fences in HTML
+- Placeholder images
+- External typing SVG as the sole wow
+- Boring three-tile feature boards
 - Em dashes
-- "Powerful / seamless / next-gen" with no install path
